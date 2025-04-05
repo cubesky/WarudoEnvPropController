@@ -1,0 +1,2 @@
+# Warudo Environment and Prop Animation Controller
+This repository provides a set of scripts to make you control your animation in Warudo Editor throw dummy AnchorNode, it doesn't require install mods to Warudo.
