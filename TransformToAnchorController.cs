@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TransformToAnchorController : MonoBehaviour
 {
-    [HideInInspector] WInteractionManager.Waypoint waypoint = new WInteractionManager.Waypoint();
+    [HideInInspector] WInteractionManager.T2A waypoint = new WInteractionManager.T2A();
     [SerializeField] public WInteractionManager.NamePolicy namePolicy;
     [SerializeField] public string customName;
     [SerializeField] public GameObject customNameGameObject;
@@ -62,7 +62,7 @@ public class TransformToAnchorController : MonoBehaviour
                 break;
         }
         waypoint.name = namePrefix + waypoint.name;
-        GameObject.Find(managerName).GetComponent<WInteractionManager>().waypoints.Add(waypoint);
+        GameObject.Find(managerName).GetComponent<WInteractionManager>().transformToAnchor.Add(waypoint);
     }
 
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class AnchorToTransformController : MonoBehaviour
 {
-    [HideInInspector] WInteractionManager.TransformSync sync = new WInteractionManager.TransformSync();
+    [HideInInspector] WInteractionManager.A2T sync = new WInteractionManager.A2T();
     [SerializeField] public WInteractionManager.NamePolicy namePolicy;
     [SerializeField] public string customName;
     [SerializeField] public GameObject customNameGameObject;
@@ -64,6 +64,6 @@ public class AnchorToTransformController : MonoBehaviour
                 break;
         }
         sync.name = namePrefix + sync.name;
-        GameObject.Find(managerName).GetComponent<WInteractionManager>().transforms.Add(sync);
+        GameObject.Find(managerName).GetComponent<WInteractionManager>().anchorToTransform.Add(sync);
     }
 }

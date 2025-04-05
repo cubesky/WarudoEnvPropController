@@ -9,15 +9,15 @@ public class WInteractionManager : MonoBehaviour
     [SerializeField]
     public string managerPrefix = "";
     [SerializeField]
-    public string waypointSyncNamePrefix = "WaypointSync_";
+    public string transformToAnchorSyncNamePrefix = "T2ASync_";
     [SerializeField]
-    public string animationSyncNamePrefix = "AnimationSync_";
+    public string animationSyncNamePrefix = "AniSync_";
     [SerializeField]
-    public string transformSyncNamePrefix = "TransformSync_";
+    public string anchorTotransformSyncNamePrefix = "A2TSync_";
 
 
     [Serializable]
-    public class Waypoint
+    public class T2A
     {
         public string name;
         [HideInInspector] public GameObject gameObject;
@@ -45,7 +45,7 @@ public class WInteractionManager : MonoBehaviour
     }
 
     [Serializable]
-    public class TransformSync
+    public class A2T
     {
         public string name;
         [HideInInspector] public GameObject gameObject;
@@ -56,11 +56,11 @@ public class WInteractionManager : MonoBehaviour
         SELF, PARENT, OTHER_GAMEOBJECT, CUSTOM
     }
 
-    public List<Waypoint> waypoints = new List<Waypoint>();
+    public List<T2A> transformToAnchor = new List<T2A>();
 
     public List<Animations> animations = new List<Animations>();
 
-    public List<TransformSync> transforms = new List<TransformSync>();
+    public List<A2T> anchorToTransform = new List<A2T>();
 
 
 #if UNITY_EDITOR
@@ -92,9 +92,9 @@ public class WInteractionManager : MonoBehaviour
 
     private void Awake()
     {
-        waypoints.Clear();
+        transformToAnchor.Clear();
         animations.Clear();
-        transforms.Clear();
+        anchorToTransform.Clear();
     }
 
     private void Update()
@@ -107,11 +107,11 @@ public class WInteractionManager : MonoBehaviour
             IReadOnlyList<AnchorAsset> anchors = Context.OpenedScene.GetAssets<AnchorAsset>();
             foreach (AnchorAsset anchor in anchors)
             {
-                TransformSync transformSync = transforms.Find((tS) =>
+                A2T transformSync = anchorToTransform.Find((tS) =>
                 {
-                    return anchor.Name == managerPrefix + transformSyncNamePrefix + tS.name;
+                    return anchor.Name == managerPrefix + anchorTotransformSyncNamePrefix + tS.name;
                 });
-                if (transformSync != null && transformSync != default(TransformSync) && anchor.Enabled)
+                if (transformSync != null && transformSync != default(A2T) && anchor.Enabled)
                 {
                     if (transformSync.gameObject != null)
                     {
@@ -120,11 +120,11 @@ public class WInteractionManager : MonoBehaviour
                         transformSync.gameObject.transform.localScale = anchor.GameObject.transform.localScale + Vector3.zero;
                     }
                 }
-                Waypoint waypoint = waypoints.Find((way) =>
+                T2A waypoint = transformToAnchor.Find((way) =>
                 {
-                    return anchor.Name == managerPrefix + waypointSyncNamePrefix + way.name;
+                    return anchor.Name == managerPrefix + transformToAnchorSyncNamePrefix + way.name;
                 });
-                if (waypoint != null && waypoint != default(Waypoint) && anchor.Enabled)
+                if (waypoint != null && waypoint != default(T2A) && anchor.Enabled)
                 {
                     anchor.Attachable.Parent = null;
                     anchor.Transform.CopyFromWorldTransform(waypoint.gameObject.transform);
